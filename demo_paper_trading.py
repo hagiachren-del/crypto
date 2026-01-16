@@ -193,7 +193,8 @@ def run_paper_trading_demo():
     print("  ✓ Risk-managed portfolio")
     print("  ✓ Performance tracking\n")
 
-    input("Press ENTER to start the demo...")
+    # Auto-start in automated environments
+    print("Starting demo...\n")
 
     # Initialize components
     print_header("INITIALIZING TRADING SYSTEM")
@@ -241,9 +242,10 @@ def run_paper_trading_demo():
     print(f"Symbol: {symbol}")
     print(f"Strategy: Multi-Indicator (RSI + MACD + Bollinger Bands)")
     print(f"AI: Claude AI validation with 60% confidence threshold")
-    print(f"Period: {days} days ({len(market_data)} hours)\n")
+    print(f"Period: 7 days ({len(market_data)} hours)\n")
 
-    input("Press ENTER to begin trading...")
+    print("Beginning trading simulation...\n")
+    time.sleep(1)
 
     position_open = False
     trades_executed = 0
