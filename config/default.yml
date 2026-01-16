@@ -1,0 +1,79 @@
+# Default Configuration for Crypto Trading Platform
+
+# Trading mode: backtest | paper | live
+mode: backtest
+
+# Exchange
+exchange: binance
+
+# Trading symbols
+symbols:
+  - BTC/USDT
+  - ETH/USDT
+
+# Strategy configuration
+strategy:
+  name: sma_cross  # sma_cross | ema_cross | rsi_strategy | macd_strategy | bollinger_bands | multi_indicator
+  params:
+    fast: 20
+    slow: 50
+
+# Risk management
+risk:
+  # Position sizing
+  max_position_pct: 0.10          # Max 10% per position
+  max_total_exposure_pct: 0.50     # Max 50% total exposure
+  risk_per_trade_pct: 0.01         # Risk 1% per trade
+
+  # Stop loss / Take profit
+  use_stop_loss: true
+  stop_loss_pct: 0.02              # 2% stop loss
+  use_take_profit: false
+  take_profit_pct: 0.05            # 5% take profit
+  trailing_stop: false
+  trailing_stop_pct: 0.03          # 3% trailing stop
+
+  # Daily limits
+  max_daily_loss_pct: 0.05         # Max 5% daily loss
+  max_daily_trades: 50             # Max 50 trades per day
+
+  # Other risk parameters
+  max_leverage: 1.0                # No leverage by default
+  max_drawdown_pct: 0.20           # 20% max drawdown
+
+# Fees and slippage
+fees:
+  taker: 0.001                     # 0.1% taker fee
+  maker: 0.0006                    # 0.06% maker fee
+slippage_bps: 5                    # 5 basis points slippage
+
+# Backtesting
+backtest:
+  initial_capital: 10000           # $10,000 initial capital
+  start_date: "2023-01-01"
+  end_date: "2024-01-01"
+  timeframe: "1h"                  # 1m | 5m | 15m | 1h | 4h | 1d
+
+# Paper trading
+paper:
+  initial_capital: 10000
+  update_interval: 60              # Update every 60 seconds
+
+# Live trading
+live:
+  update_interval: 60
+  confirm_orders: true             # Require confirmation before placing orders
+
+# Reporting
+reporting:
+  generate_plots: true
+  output_dir: "reports"
+  save_trades: true
+  save_equity_curve: true
+
+# Machine Learning (optional)
+ml:
+  enabled: false
+  model_type: "random_forest"     # random_forest | gradient_boosting | ensemble
+  train_on_start: false
+  prediction_horizon: 1            # Predict 1 period ahead
