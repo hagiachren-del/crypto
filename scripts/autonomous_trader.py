@@ -36,7 +36,7 @@ from src.ai.market_intelligence import MarketIntelligence
 from src.exchanges.mexc_adapter import MEXCAdapter
 from src.indicators.indicators import Indicators
 from src.utils.database import TradingDatabase
-from src.utils.logger import setup_logging
+from src.utils.logger import setup_production_logging
 from src.utils.notifications import NotificationManager
 
 logger = logging.getLogger(__name__)
@@ -157,10 +157,9 @@ class AutonomousTrader:
     def _setup_logging(self) -> logging.Logger:
         """Setup logging configuration"""
         log_config = self.config.get('logging', {})
-        return setup_logging(
-            log_level=log_config.get('level', 'INFO'),
-            log_dir=log_config.get('log_dir', 'logs'),
-            log_name='autonomous_trader'
+        return setup_production_logging(
+            app_name='autonomous_trader',
+            log_level=log_config.get('level', 'INFO')
         )
 
     def start(self):
