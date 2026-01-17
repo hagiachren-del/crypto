@@ -1,0 +1,286 @@
+# Autonomous AI Trading Agent Configuration
+# Powered by DeepSeek AI for intelligent, autonomous cryptocurrency trading
+
+# ==================== TRADING MODE ====================
+# paper: Simulated trading with real market data (RECOMMENDED for testing)
+# live: Real trading with actual funds (USE WITH CAUTION)
+mode: paper
+
+# ==================== CAPITAL ALLOCATION ====================
+initial_capital: 10000  # Starting capital in USD
+
+# ==================== TRADING PAIRS ====================
+# Symbols to trade (MEXC format: BASE/QUOTE)
+symbols:
+  - BTC/USDT
+  - ETH/USDT
+  - SOL/USDT
+
+# ==================== AI CONFIGURATION ====================
+ai:
+  enabled: true
+  provider: deepseek  # DeepSeek AI for market analysis
+  model: deepseek-chat  # deepseek-chat (general) or deepseek-coder (technical)
+
+  # AI-powered features
+  features:
+    market_analysis: true          # Real-time market analysis
+    signal_validation: true        # AI validates all trade signals
+    risk_assessment: true          # Portfolio risk assessment
+    multi_timeframe: true          # Multi-timeframe analysis
+    pattern_recognition: true      # Chart pattern recognition
+
+  # Confidence thresholds (0-100)
+  confidence_threshold: 70         # Minimum confidence to enter trades
+  validation_threshold: 60         # Minimum confidence for conditional entries
+
+# ==================== RISK MANAGEMENT ====================
+risk:
+  # Position sizing (percentage of portfolio)
+  max_position_pct: 0.08           # Max 8% per position (aggressive AI trading)
+  max_total_exposure_pct: 0.40     # Max 40% total exposure
+  risk_per_trade_pct: 0.015        # Risk 1.5% per trade
+
+  # Stop loss and take profit
+  use_stop_loss: true
+  stop_loss_pct: 0.025             # 2.5% stop loss
+  use_take_profit: true
+  take_profit_pct: 0.06            # 6% take profit (2.4:1 risk/reward)
+
+  # Trailing stop (lock in profits)
+  trailing_stop: true
+  trailing_stop_pct: 0.018         # 1.8% trailing stop
+
+  # Daily limits (risk controls)
+  max_daily_loss_pct: 0.04         # Max 4% daily loss
+  max_daily_trades: 30             # Max 30 trades per day
+
+  # Position limits
+  max_leverage: 1.0                # No leverage (spot trading only)
+  max_open_positions: 3            # Max 3 concurrent positions
+
+# ==================== TIMING & INTERVALS ====================
+# Update intervals in seconds
+update_interval: 45                # Check markets every 45 seconds
+analysis_interval: 240             # Deep AI analysis every 4 minutes
+portfolio_check_interval: 300      # Portfolio review every 5 minutes
+
+# Position hold time
+max_position_hold_hours: 72        # Max 72 hours (3 days) per position
+min_position_hold_minutes: 15      # Min 15 minutes before AI can suggest exit
+
+# ==================== EMERGENCY STOP CONDITIONS ====================
+emergency_stop:
+  enabled: true
+
+  # Loss-based stops
+  max_consecutive_losses: 6        # Stop after 6 consecutive losses
+  circuit_breaker_loss_pct: 0.12   # Stop if portfolio loses 12%
+
+  # Technical stops
+  unusual_volume_threshold: 8.0    # Stop if volume is 8x normal (market manipulation)
+  api_error_threshold: 15          # Stop after 15 consecutive API errors
+  connection_timeout_seconds: 30   # Connection timeout
+
+  # Recovery settings
+  auto_restart_after_minutes: 60   # Auto-restart after 60 minutes (if conditions normalize)
+  require_manual_restart: false    # Set true to require manual restart after emergency stop
+
+# ==================== DATABASE ====================
+database:
+  enabled: true
+  path: data/autonomous.db         # SQLite database path
+  backup_enabled: true
+  backup_interval_hours: 6         # Backup every 6 hours
+  retention_days: 90               # Keep data for 90 days
+
+# ==================== LOGGING ====================
+logging:
+  level: INFO                      # DEBUG | INFO | WARNING | ERROR
+  log_dir: logs
+  log_file: autonomous_trader.log
+  rotate_size_mb: 20               # Rotate logs at 20MB
+  backup_count: 30                 # Keep 30 backup log files
+  structured_logs: true            # JSON-formatted logs
+  console_output: true             # Print to console
+
+# ==================== NOTIFICATIONS ====================
+notifications:
+  # Telegram notifications (RECOMMENDED)
+  telegram:
+    enabled: false                 # Set true and configure in secrets.yml
+    notify_on_trades: true
+    notify_on_errors: true
+    notify_on_emergency_stop: true
+    daily_summary: true
+    daily_summary_time: "20:00"    # 8 PM daily summary
+
+  # Discord notifications (OPTIONAL)
+  discord:
+    enabled: false                 # Set true and configure webhook in secrets.yml
+    notify_on_trades: true
+    notify_on_errors: true
+
+  # Email notifications (OPTIONAL)
+  email:
+    enabled: false                 # Set true and configure in secrets.yml
+    notify_on_trades: false
+    notify_on_errors: true
+    daily_summary: true
+
+# ==================== EXCHANGE SETTINGS (MEXC) ====================
+exchange:
+  name: mexc
+  rate_limit_enabled: true         # Respect rate limits
+  max_retries: 5                   # Retry failed requests
+  retry_delay_seconds: 2           # Delay between retries
+  timeout_seconds: 30              # Request timeout
+
+  # Order settings
+  order_type: market               # market | limit
+  allow_market_orders: true
+  slippage_tolerance_pct: 0.005    # 0.5% slippage tolerance
+
+# ==================== FEES ====================
+fees:
+  taker: 0.0002                    # 0.02% MEXC taker fee
+  maker: 0.0002                    # 0.02% MEXC maker fee
+
+# ==================== PERFORMANCE OPTIMIZATION ====================
+performance:
+  cache_market_data: true
+  cache_ttl_seconds: 30            # Cache market data for 30 seconds
+  parallel_symbol_processing: false  # Process symbols sequentially for safety
+  batch_database_writes: true      # Batch DB writes for performance
+
+# ==================== ADVANCED AI FEATURES ====================
+advanced_ai:
+  # Portfolio optimization
+  portfolio_optimization: true     # AI optimizes portfolio allocation
+  rebalance_interval_hours: 24     # Rebalance every 24 hours
+
+  # Market regime detection
+  regime_detection: true           # Detect bull/bear/ranging markets
+  adapt_to_regime: true            # Adjust strategy based on market regime
+
+  # Learning and adaptation
+  learn_from_trades: true          # AI learns from past trades
+  performance_feedback: true       # Feed performance back to AI for improvement
+
+  # Risk scoring
+  dynamic_position_sizing: true    # AI adjusts position size based on confidence
+  correlation_analysis: true       # Avoid correlated positions
+
+# ==================== MONITORING & HEALTH CHECKS ====================
+monitoring:
+  enabled: true
+  health_check_interval: 300       # Health check every 5 minutes
+
+  # What to monitor
+  check_exchange_connection: true
+  check_api_rate_limits: true
+  check_portfolio_health: true
+  check_system_resources: true
+
+  # Alerts
+  alert_on_high_memory: true
+  memory_threshold_mb: 512         # Alert if memory usage > 512MB
+  alert_on_slow_response: true
+  slow_response_threshold_seconds: 10
+
+# ==================== BACKTESTING & SIMULATION ====================
+simulation:
+  # Paper trading settings
+  simulate_slippage: true
+  slippage_range_pct: 0.003        # 0.3% realistic slippage
+  simulate_latency: true
+  latency_ms: 100                  # 100ms simulated latency
+  simulate_partial_fills: false     # All or nothing fills
+
+# ==================== REPORTING ====================
+reporting:
+  enabled: true
+  report_dir: reports/autonomous
+
+  # Report types
+  generate_daily_report: true
+  generate_weekly_report: true
+  generate_monthly_report: true
+
+  # Report contents
+  include_trade_log: true
+  include_equity_curve: true
+  include_performance_metrics: true
+  include_ai_insights: true
+  include_risk_analysis: true
+
+  # Output formats
+  formats:
+    - json
+    - csv
+    - html
+
+# ==================== SECURITY ====================
+security:
+  # API key security
+  rotate_keys_reminder_days: 90    # Remind to rotate keys every 90 days
+
+  # Trading limits
+  max_single_trade_value: 1000     # Max $1000 per single trade
+  max_daily_volume: 10000          # Max $10,000 daily trading volume
+
+  # Verification
+  verify_balance_before_trade: true
+  verify_order_execution: true
+
+# ==================== STRATEGY SETTINGS ====================
+strategy:
+  name: DeepSeek_AI_Autonomous      # Strategy identifier
+
+  # AI decision-making style
+  trading_style: balanced            # aggressive | balanced | conservative
+  time_horizon: short_term           # short_term (hours) | medium_term (days)
+
+  # Signal filtering
+  require_volume_confirmation: true
+  require_trend_alignment: true
+  avoid_choppy_markets: true
+
+  # Entry optimization
+  wait_for_optimal_entry: true      # Wait for better entry if signal is conditional
+  max_wait_time_minutes: 30         # Max wait time for optimal entry
+
+# ==================== DEVELOPMENT & DEBUGGING ====================
+development:
+  debug_mode: false                 # Enable verbose debugging
+  save_debug_logs: true
+  log_ai_prompts: false             # Log AI prompts (for analysis)
+  log_ai_responses: false           # Log full AI responses
+
+  # Testing
+  dry_run_orders: false             # Log orders without executing (even in live mode)
+  simulate_fills: false             # Simulate order fills
+
+# ==================== NOTES ====================
+#
+# GETTING STARTED:
+# 1. Ensure secrets.yml has your MEXC and DeepSeek API keys
+# 2. Start in 'paper' mode to test the system
+# 3. Monitor performance for at least 1 week
+# 4. Gradually transition to 'live' mode with small capital
+# 5. Enable notifications for real-time monitoring
+#
+# RISK WARNING:
+# - Autonomous trading carries significant risk
+# - Never trade with money you can't afford to lose
+# - Always monitor the bot's performance
+# - Keep emergency stop conditions enabled
+# - Start with paper trading and small amounts
+#
+# BEST PRACTICES:
+# - Review daily performance reports
+# - Adjust risk parameters based on performance
+# - Keep API keys secure and rotate regularly
+# - Monitor for unusual behavior
+# - Have a backup plan for system failures
+#
