@@ -1,0 +1,193 @@
+# Production Configuration for Crypto Trading Platform with MEXC and Claude AI
+
+# Trading mode: backtest | paper | live
+mode: paper  # Start with paper trading for safety
+
+# Exchange Configuration - MEXC
+exchange: mexc
+
+# Trading symbols (MEXC format)
+symbols:
+  - BTC/USDT
+  - ETH/USDT
+  - SOL/USDT
+
+# Strategy configuration
+strategy:
+  name: multi_indicator  # sma_cross | ema_cross | rsi_strategy | macd_strategy | bollinger_bands | multi_indicator
+  params:
+    # RSI parameters
+    rsi_period: 14
+    rsi_oversold: 30
+    rsi_overbought: 70
+
+    # MACD parameters
+    macd_fast: 12
+    macd_slow: 26
+    macd_signal: 9
+
+    # Bollinger Bands parameters
+    bb_period: 20
+    bb_std: 2.0
+
+    # Signal threshold (require multiple confirmations)
+    threshold: 2
+
+# Claude AI Integration
+ai:
+  enabled: true
+  provider: claude  # claude | openai
+  model: claude-sonnet-4-5-20250929
+  features:
+    market_analysis: true
+    signal_validation: true
+    risk_assessment: true
+    daily_reports: true
+  confidence_threshold: 60  # Only act on signals with >60% AI confidence
+
+# Risk Management (Production-Grade)
+risk:
+  # Position sizing
+  max_position_pct: 0.05           # Conservative: Max 5% per position
+  max_total_exposure_pct: 0.30     # Max 30% total exposure
+  risk_per_trade_pct: 0.01         # Risk 1% per trade
+
+  # Stop loss / Take profit
+  use_stop_loss: true
+  stop_loss_pct: 0.02              # 2% stop loss
+  use_take_profit: true
+  take_profit_pct: 0.04            # 4% take profit (2:1 risk/reward)
+  trailing_stop: true
+  trailing_stop_pct: 0.015         # 1.5% trailing stop
+
+  # Daily limits
+  max_daily_loss_pct: 0.03         # Max 3% daily loss
+  max_daily_trades: 20             # Max 20 trades per day
+
+  # Other risk parameters
+  max_leverage: 1.0                # No leverage for safety
+  max_drawdown_pct: 0.15           # 15% max drawdown before pause
+
+# MEXC Fee Structure
+fees:
+  taker: 0.0002                    # 0.02% taker fee
+  maker: 0.0002                    # 0.02% maker fee
+slippage_bps: 3                    # 3 basis points slippage
+
+# Backtesting Configuration
+backtest:
+  initial_capital: 10000           # $10,000 initial capital
+  start_date: "2024-01-01"
+  end_date: "2024-12-31"
+  timeframe: "1h"                  # 1m | 5m | 15m | 1h | 4h | 1d
+
+# Paper Trading Configuration
+paper:
+  initial_capital: 10000
+  update_interval: 60              # Update every 60 seconds
+  use_real_data: true              # Use real market data
+
+# Live Trading Configuration
+live:
+  initial_capital: 1000            # Start small in live mode
+  update_interval: 30              # Update every 30 seconds
+  confirm_orders: false            # Auto-execute (set true for manual confirmation)
+  dry_run_first: true              # Test with dry run before real orders
+
+# Logging Configuration
+logging:
+  level: INFO                      # DEBUG | INFO | WARNING | ERROR
+  log_dir: logs
+  rotate_size_mb: 10               # Rotate logs at 10MB
+  backup_count: 10                 # Keep 10 backup log files
+  structured_logs: true            # Enable JSON structured logging
+
+# Database Configuration
+database:
+  enabled: true
+  path: data/production.db
+  backup_interval_hours: 24        # Backup database every 24 hours
+
+# Notification Configuration
+notifications:
+  email:
+    enabled: false
+    smtp_server: smtp.gmail.com
+    smtp_port: 587
+    sender: your-email@gmail.com
+    password: ""  # Set in secrets.yml
+    recipients:
+      - trader@example.com
+
+  telegram:
+    enabled: true
+    bot_token: ""  # Set in secrets.yml or environment variable
+    chat_id: ""    # Set in secrets.yml or environment variable
+    notify_on_trades: true
+    notify_on_errors: true
+    daily_report: true
+    daily_report_time: "20:00"  # 8 PM
+
+  discord:
+    enabled: false
+    webhook_url: ""  # Set in secrets.yml
+
+# Monitoring & Health Checks
+monitoring:
+  enabled: true
+  health_check_interval: 300       # Check health every 5 minutes
+  metrics_enabled: true
+  performance_tracking: true
+
+# Data Management
+data:
+  cache_enabled: true
+  cache_dir: data/cache
+  historical_data_retention_days: 90
+  auto_cleanup: true
+
+# Reporting
+reporting:
+  generate_plots: true
+  output_dir: reports
+  save_trades: true
+  save_equity_curve: true
+  daily_reports: true
+  weekly_reports: true
+  monthly_reports: true
+
+# API Rate Limiting
+rate_limiting:
+  enabled: true
+  max_requests_per_minute: 100
+  backoff_multiplier: 2
+  max_retries: 3
+
+# Security
+security:
+  enable_ip_whitelist: false
+  ip_whitelist: []
+  enable_2fa: false
+  api_key_rotation_days: 90        # Rotate API keys every 90 days
+
+# Performance Optimization
+performance:
+  enable_caching: true
+  cache_ttl_seconds: 60
+  parallel_data_fetch: true
+  optimize_indicators: true
+
+# Emergency Stop Conditions
+emergency_stop:
+  enabled: true
+  max_consecutive_losses: 5        # Stop after 5 consecutive losses
+  circuit_breaker_loss_pct: 0.10   # Stop if portfolio loses 10%
+  unusual_volume_threshold: 5.0    # Stop if volume is 5x normal
+  api_error_threshold: 10          # Stop after 10 consecutive API errors
+
+# Advanced Features
+advanced:
+  multi_timeframe_analysis: false
+  portfolio_optimization: false
+  walk_forward_testing: false
+  monte_carlo_simulation: false
