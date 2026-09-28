@@ -3,9 +3,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .ruff_cache/
-data/*.db
-data/*.db-journal
-data/audio/
+data/
 .env
 dist/
 build/
