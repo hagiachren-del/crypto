@@ -1,0 +1,53 @@
+[project]
+name = "voice-router"
+version = "0.1.0"
+description = "One self-hosted backend that routes spoken requests to any AI by name, with shared memory across devices."
+readme = "PLAN.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.141",
+    "uvicorn[standard]>=0.54",
+    "litellm>=1.103",
+    "sqlmodel>=0.0.47",
+    "pydantic>=2.11",
+    "pydantic-settings>=2.15",
+    "rapidfuzz>=3.14",
+    "watchfiles>=1.3",
+    "pyyaml>=6.0",
+    "typer>=0.27",
+    "httpx>=0.28",
+    "python-multipart>=0.0.20",
+]
+
+[project.scripts]
+router = "router.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1",
+    "pytest-asyncio>=1.0",
+    "ruff>=0.13",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["router"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]

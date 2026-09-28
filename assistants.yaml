@@ -1,0 +1,55 @@
+# voice-router registry — the single source of truth for names.
+# Every name and mishear must be unique across this file (validated at load).
+# Edits take effect without a restart; the API/CLI also write to this file.
+
+default_assistant: claude
+sticky_minutes: 10
+fuzzy_threshold: 85
+
+# Names that are ordinary English words. These only match as a vocative when there is
+# a cue: a greeting ("hey local"), "ask local", "switch to local", or a comma after the name.
+plain_words: [local, house, coach, google, everyone, assistant, router, auto]
+
+assistants:
+  claude:
+    model: anthropic/claude-sonnet-5
+    names: [claude, jarvis]            # default name first, then custom names
+    mishears: [cloud, clawed, claud]   # ASR spellings to accept
+    voice: {provider: openai, voice: onyx}
+
+  gpt:
+    display_name: GPT
+    model: openai/gpt-6-sol
+    names: [gpt, chatgpt, friday]
+    mishears: [gpd, g p t, jeep tea]
+    voice: {provider: openai, voice: nova}
+    search: true
+    image: true
+
+  gemini:
+    model: gemini/gemini-3.8-flash
+    names: [gemini, google]
+    voice: {provider: openai, voice: shimmer}
+    search: true
+    image: true
+
+  local:
+    model: ollama/gemma3:12b
+    names: [local, house]
+    private: true                      # never leaves the LAN
+    voice: {provider: openai, voice: echo}
+
+  auto:
+    router: true                       # classifier picks the best assistant
+    names: [auto, router, assistant]
+
+  council:
+    council: [claude, gpt, gemini]
+    synthesizer: claude
+    names: [council, everyone]
+
+  coach:                               # a persona: same model, different brain
+    base: claude
+    names: [coach]
+    system_prompt: prompts/coach.md
+    tools: [calendar]

@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+data/*.db
+data/*.db-journal
+data/audio/
+.env
+dist/
+build/
+*.egg-info/
+shortcuts/*.shortcut

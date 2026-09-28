@@ -1,0 +1,27 @@
+# Everything that is not a name. Names and assistant models live in assistants.yaml.
+
+server:
+  host: 0.0.0.0
+  port: 8787
+
+models:
+  classifier: anthropic/claude-haiku-4-5    # the `auto` assistant's brain
+  summarizer: anthropic/claude-haiku-4-5    # folds old turns into the session summary
+
+memory:
+  db_path: data/router.db
+  session_minutes: 30        # rolling window; "new conversation" ends a session early
+  replay_turns: 12           # most recent turns replayed to whoever answers
+  summarize_after_turns: 24  # older turns beyond this are summarized by the cheap model
+
+auto:
+  cheapest: gemini           # target for trivial facts
+  min_confidence: 0.5        # below this the classifier's pick is ignored and default answers
+
+speech:                      # used from slice 2
+  stt:
+    local_model: small.en    # faster-whisper model name
+    fallback: openai/gpt-4o-mini-transcribe
+  tts:
+    openai_model: gpt-4o-mini-tts
+    format: mp3

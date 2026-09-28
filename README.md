@@ -182,6 +182,7 @@ Create `src/strategies/my_strategy.py`:
 ```python
 from strategies.base import Strategy
 
+
 class MyStrategy(Strategy):
     def on_candle(self, candle):
         # candle: {open, high, low, close, volume, timestamp}
